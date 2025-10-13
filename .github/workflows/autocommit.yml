@@ -3,7 +3,7 @@ name: Daily Auto Commit
 on:
   workflow_dispatch:      # Cho phép chạy thủ công
   schedule:
-    - cron: '0 17 * * *'  # Tự chạy mỗi ngày lúc 00:00 giờ Việt Nam (UTC+7)
+    - cron: '0 17 * * *'  # Chạy mỗi ngày lúc 00:00 (giờ Việt Nam, UTC+7)
 
 permissions:
   contents: write
