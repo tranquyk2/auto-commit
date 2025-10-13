@@ -1,28 +1,25 @@
 name: Daily Auto Commit
 
 on:
-  push:
+  workflow_dispatch:      # Cho phép chạy thủ công
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 17 * * *'  # Tự chạy mỗi ngày lúc 00:00 giờ Việt Nam (UTC+7)
+
+permissions:
+  contents: write
 
 jobs:
   auto-commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Update file
+      - name: Auto commit
         run: |
-          echo "Cập nhật lúc $(date)" >> commit-log.txt
-
-      - name: Commit & Push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git add commit-log.txt
+          echo "Auto commit: $(date)" >> commit-log.txt
+          git config user.name "tranquyk2"
+          git config user.email "tranquyk2@users.noreply.github.com"
+          git add .
           git commit -m "Auto commit: $(date)" || echo "No changes to commit"
           git push
