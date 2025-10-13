@@ -2,8 +2,8 @@ name: Daily Auto Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'  # Tự chạy mỗi ngày lúc 00:00 UTC
+  workflow_dispatch:       # Cho phép bạn bấm “Run workflow” thủ công
 
 jobs:
   auto-commit:
@@ -23,4 +23,3 @@ jobs:
           git add commit-log.txt
           git commit -m "Auto commit: $(date)"
           git push
-
