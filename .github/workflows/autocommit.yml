@@ -2,8 +2,8 @@ name: Daily Auto Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Tự chạy mỗi ngày lúc 00:00 UTC
-  workflow_dispatch:       # Cho phép bạn bấm “Run workflow” thủ công
+    - cron: '0 0 * * *'  # Chạy mỗi ngày lúc 00:00 UTC
+  workflow_dispatch:      # Cho phép chạy thủ công
 
 jobs:
   auto-commit:
