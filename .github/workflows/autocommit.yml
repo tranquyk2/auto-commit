@@ -1,1 +1,26 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Cập nhật file
+        run: |
+          echo "Cập nhật lúc $(date)" >> commit-log.txt
+
+      - name: Commit & Push
+        run: |
+          git config --local user.email "you@example.com"
+          git config --local user.name "YourName"
+          git add commit-log.txt
+          git commit -m "Auto commit: $(date)"
+          git push
 
