@@ -1,25 +1,39 @@
-name: Daily Auto Commit
+name: Daily 10 Auto Commits
 
 on:
-  workflow_dispatch:    # Cho phép chạy thủ công
+  workflow_dispatch:    # Cho phép chạy thủ công trong tab Actions
   schedule:
-    - cron: '0 0 * * *' # Tự chạy mỗi ngày lúc 07:00 sáng Việt Nam (0h UTC)
+    - cron: '0 0 * * *' # Tự động chạy mỗi ngày lúc 07:00 sáng Việt Nam (0h UTC)
 
 permissions:
-  contents: write
+  contents: write        # Cho phép push thay đổi vào repo
 
 jobs:
   auto-commit:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Auto commit
+      - name: Auto commit 10 lần trong ngày
         run: |
-          echo "Auto commit: $(date)" >> commit-log.txt
           git config user.name "tranquyk2"
           git config user.email "tranquyk2@users.noreply.github.com"
-          git add .
-          git commit -m "Auto commit: $(date)" || echo "No changes to commit"
-          git push
+
+          echo "=== Bắt đầu 10 lần commit tự động trong ngày $(date) ==="
+
+          for i in {1..10}
+          do
+            echo "Auto commit lần $i: $(date)" >> commit-log.txt
+            git add commit-log.txt
+            git commit -m "Auto commit lần $i: $(date)" || echo "Không có gì để commit"
+            git push
+
+            # Thời gian chờ ngẫu nhiên 10–40 phút giữa mỗi commit
+            delay=$((RANDOM % 1800 + 600))
+            echo "⏳ Chờ $delay giây (~$(($delay/60)) phút) trước lần commit tiếp theo..."
+            sleep $delay
+          done
+
+          echo "=== Hoàn thành 10 lần commit trong ngày $(date) ==="
